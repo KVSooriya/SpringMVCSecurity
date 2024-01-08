@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home page</title>
+</head>
+</head>
+<body>
+<h1>VISMEE - WORLD OF LEARNING</h1>
+<!-- Displaying username and role by making use of security tag : authentication -->
+<h3>Welcome <span sec:authentication="principal.username"></span>
+<span sec:authentication="principal.authorities"></span>
+</h3>
+<hr>
+<h4>Full Stack Courses Offered</h4>
+<div>Spring Boot</div>
+<div>Hibernate & JPA</div>
+<div>HTML, CSS & JAVASCRIPT</div>
+<div>Github</div>
+<div>React JS</div>
+<!-- Displaying content based on role. Only authorized can view the content -->
+<div sec:authorize="hasAnyRole('MANAGER','ADMIN')">
+<p>
+<a th:href="@{/courseMaterials}">Course Materials</a>
+</p>
+</div>
+<div sec:authorize="hasRole('ADMIN')">
+<p>
+<a th:href="@{/courseFees}">Course Fees</a>
+</p>
+</div>
+<hr>
+<!-- Placing logout button - /logout is the default url provided by spring security and we have configured
+     in security file for logout support. We need to POST the data to /logout for logout support -->
+<form action="#" th:action="@{/logout}" method="POST">
+    <input type="submit" value="logout"/>
+</form>
+</body>
+</html>
